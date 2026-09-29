@@ -1,227 +1,142 @@
-<!DOCTYPE html> 
-<html lang="en"> 
- 
-<head> 
-    <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Recipe Card Assignment - Make This Beautiful!</title> 
-    <link rel="stylesheet" href="style.css"> 
-</head> 
- 
-<body> 
- 
-    <main class="recipe-container"> 
- 
-        <!-- Recipe Header --> 
-        <header class="recipe-header"> 
- 
-            <div class="recipe-title-area"> 
-                <h1 class="recipe-title">Classic Chocolate Chip Cookies</h1> 
-            </div> 
- 
-            <img 
-                src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=1000&q=80"
-                alt="Classic chocolate chip cookies"
-                class="recipe-image"
-            >
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 4: JavaScript Fundamentals</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-        </header>
+  <div class="page">
 
+    <!-- ── left: the RSVP card ──────────────────────────────── -->
+    <div class="card" id="rsvp-card">
 
-        <!-- Recipe Description -->
-        <section class="recipe-description">
+      <div class="event-header">
+        <h1 class="event-title">End of Semester Party</h1>
+        <p class="event-meta">Friday, May 9 &middot; 7pm &middot; Someone's Rooftop</p>
+      </div>
 
-            <p>
-                These classic chocolate chip cookies are crispy on the edges, chewy in the middle, and packed with chocolate chips. Perfect for any occasion, from lunch boxes to holiday gatherings. This foolproof recipe has been tested countless times and always delivers delicious results.
-            </p>
+      <!-- string: name -->
+      <div class="field">
+        <label for="name-input">Your name</label>
+        <input type="text" id="name-input" placeholder="First name is fine">
+      </div>
 
-        </section>
+      <!-- boolean: going or not -->
+      <div class="rsvp-buttons">
+        <button class="btn btn-yes" id="btn-yes">Going</button>
+        <button class="btn btn-no"  id="btn-no">Can't make it</button>
+      </div>
 
+      <!-- number: guest count, hidden until yes -->
+      <div class="guest-field hidden" id="guest-field">
+        <label for="guest-input">Bringing anyone?</label>
+        <input type="number" id="guest-input" value="0" min="0" max="10">
+        <!-- 
+          Note: type="number" still gives you a STRING from .value
+          You have to convert it. We'll see this below.
+        -->
+      </div>
 
-        <!-- Recipe Information -->
-        <section class="recipe-meta">
+      <!-- confirmation messages, hidden until a choice is made -->
+      <div class="confirmation hidden" id="confirmation"></div>
+      <div class="regret     hidden" id="regret"></div>
 
-            <div class="meta-item">
-                <span class="meta-label">Prep Time</span>
-                <strong>15 minutes</strong>
-            </div>
+    </div>
 
-            <div class="meta-item">
-                <span class="meta-label">Cook Time</span>
-                <strong>12 minutes</strong>
-            </div>
+    <!-- ── right: tasks panel ───────────────────────────────── -->
+    <aside class="tasks-panel">
 
-            <div class="meta-item">
-                <span class="meta-label">Total Time</span>
-                <strong>27 minutes</strong>
-            </div>
+      <h2>Tutorial 4: Make HTML Interactive</h2>
+      <p class="intro">
+        This RSVP card has all its HTML and CSS but no behavior yet. <br />
+        Let's wire up the JavaScript so it responds to the user.
+      </p>
 
-            <div class="meta-item">
-                <span class="meta-label">Servings</span>
-                <strong>24 cookies</strong>
-            </div>
+      <div class="task-group">
+        <h3>Before you write any JS</h3>
+        <p>Open the browser console (F12 → Console tab) and leave it open. 
+           You'll use <code>console.log()</code> to check your work throughout.</p>
+      </div>
 
-            <div class="meta-item">
-                <span class="meta-label">Difficulty</span>
-                <strong>Easy</strong>
-            </div>
+      <div class="task-group">
+        <h3>Task 1 — Boolean: Yes / No buttons</h3>
+        <p>
+          When someone clicks <strong>Going</strong>, set <code>isGoing = true</code>
+          and add the <code>active</code> class to that button.
+          When they click <strong>Can't make it</strong>, the opposite.
+          Only one can be active at a time.
+        </p>
+        <p>Skills: <code>addEventListener</code>, <code>classList.add/remove</code>, boolean variables</p>
+      </div>
 
-        </section>
+      <div class="task-group">
+        <h3>Task 2 — Show / hide: guest field</h3>
+        <p>
+          When someone clicks Going, <strong>remove</strong> the <code>hidden</code> class
+          from <code>#guest-field</code> so the guest count appears.
+          When they click Can't make it, add it back.
+        </p>
+        <p>Skills: <code>classList.remove</code>, <code>classList.add</code>, conditional display</p>
+      </div>
 
+      <div class="task-group">
+        <h3>Task 3 — String: confirmation message</h3>
+        <p>
+          After a choice is made, show a message in <code>#confirmation</code> or 
+          <code>#regret</code>. Use the name from the input.
+          Use a template literal: <code>`${getName()} is coming!`</code>
+        </p>
+        <p>
+          A helper function <code>getName()</code> is already written for you in 
+          <code>script.js</code> — read it and understand what it does before using it.
+        </p>
+        <p>Skills: template literals, <code>textContent</code>, showing hidden elements</p>
+      </div>
 
-        <!-- Ingredients -->
-        <section class="ingredients-section">
+      <div class="task-group">
+        <h3>Task 4 — Number: guest count</h3>
+        <p>
+          Update the confirmation message to include how many guests they're bringing.
+          Watch out: <code>guestInput.value</code> is a <strong>string</strong>, not a number.
+          Try logging it with <code>typeof</code> to see for yourself.
+          Use <code>Number()</code> to convert it.
+        </p>
+        <p>
+          Stretch: handle the difference between 0 guests ("flying solo") and 
+          1 guest ("1 guest") and 2+ guests ("2 guests").
+        </p>
+        <p>Skills: type conversion, <code>Number()</code>, conditionals</p>
+      </div>
 
-            <h2>Ingredients</h2>
+      <div class="task-group">
+        <h3>Task 5 — Live update</h3>
+        <p>
+          Add <code>input</code> event listeners to both the name field and the guest
+          count field so the confirmation message updates as the user types —
+          not just when they first click the button.
+        </p>
+        <p>Skills: <code>addEventListener('input', ...)</code>, reactive updates</p>
+      </div>
 
-            <ul class="ingredient-list">
+      <div class="task-group task-stretch">
+        <h3>Stretch — Operators and comparisons</h3>
+        <p>
+          Add a running total below the guest field: 
+          "X people confirmed so far" — where X is the number of guests plus 1 (the person themselves).
+        </p>
+        <p>
+          Or: disable the Going button if the name field is empty.
+          Check <code>nameInput.value.trim() === ''</code> on every input event.
+        </p>
+      </div>
 
-                <li>
-                    <span class="ingredient-amount">2¼ cups</span>
-                    <span>all-purpose flour</span>
-                </li>
+    </aside>
 
-                <li>
-                    <span class="ingredient-amount">1 teaspoon</span>
-                    <span>baking soda</span>
-                </li>
+  </div>
 
-                <li>
-                    <span class="ingredient-amount">1 teaspoon</span>
-                    <span>salt</span>
-                </li>
-
-                <li>
-                    <span class="ingredient-amount">1 cup (2 sticks)</span>
-                    <span>butter, softened</span>
-                </li>
-
-                <li>
-                    <span class="ingredient-amount">¾ cup</span>
-                    <span>granulated sugar</span>
-                </li>
-
-                <li>
-                    <span class="ingredient-amount">¾ cup</span>
-                    <span>packed brown sugar</span>
-                </li>
-
-                <li>
-                    <span class="ingredient-amount">2</span>
-                    <span>large eggs</span>
-                </li>
-
-                <li>
-                    <span class="ingredient-amount">1 teaspoon</span>
-                    <span>vanilla extract</span>
-                </li>
-
-                <li>
-                    <span class="ingredient-amount">2 cups</span>
-                    <span>semi-sweet chocolate chips</span>
-                </li>
-
-                <li>
-                    <span class="ingredient-amount">1 cup</span>
-                    <span>chopped nuts (optional)</span>
-                </li>
-
-            </ul>
-
-        </section>
-
-
-        <!-- Instructions -->
-        <section class="instructions-section">
-
-            <h2>Instructions</h2>
-
-            <ol class="instruction-list">
-
-                <li class="instruction-step">
-                    <span class="step-number">1</span>
-                    <p>
-                        Preheat oven to 375°F (190°C). Line baking sheets
-                        with parchment paper.
-                    </p>
-                </li>
-
-                <li class="instruction-step">
-                    <span class="step-number">2</span>
-                    <p>
-                        In a medium bowl, whisk together flour, baking soda,
-                        and salt.
-                    </p>
-                </li>
-
-                <li class="instruction-step">
-                    <span class="step-number">3</span>
-                    <p>
-                        In a large bowl, beat softened butter, granulated
-                        sugar, and brown sugar until creamy.
-                    </p>
-                </li>
-
-                <li class="instruction-step">
-                    <span class="step-number">4</span>
-                    <p>
-                        Add eggs one at a time, beating well after each
-                        addition. Stir in vanilla.
-                    </p>
-                </li>
-
-                <li class="instruction-step">
-                    <span class="step-number">5</span>
-                    <p>
-                        Gradually blend the dry ingredients into the wet
-                        ingredients. Stir in chocolate chips and nuts
-                        (if using).
-                    </p>
-                </li>
-
-                <li class="instruction-step">
-                    <span class="step-number">6</span>
-                    <p>
-                        Drop rounded tablespoons of dough onto prepared
-                        baking sheets, about 2 inches apart.
-                    </p>
-                </li>
-
-                <li class="instruction-step">
-                    <span class="step-number">7</span>
-                    <p>
-                        Bake for 10-12 minutes, or until edges are golden
-                        brown. Don't overbake!
-                    </p>
-                </li>
-
-                <li class="instruction-step">
-                    <span class="step-number">8</span>
-                    <p>
-                        Cool on baking sheets for 2 minutes, then transfer
-                        to wire racks to cool completely.
-                    </p>
-                </li>
-
-            </ol>
-
-        </section>
-
-
-        <!-- Footer -->
-        <footer class="recipe-footer">
-
-            <p>
-                Recipe adapted from traditional family cookbook | Nutritional info: ~150 calories per cookie
-            </p>
-
-            <p>
-                Tags: dessert, baking, cookies, chocolate, family-friendly
-            </p>
-
-        </footer>
-
-    </main>
-
+  <script src="script.js"></script>
 </body>
 </html>
