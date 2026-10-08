@@ -1,207 +1,266 @@
-// ============================================================
-// TUTORIAL 4: JAVASCRIPT FUNDAMENTALS
-// RSVP card — wire up the behavior
-// ============================================================
-//
-// BEFORE YOU START: open the browser console (F12 → Console)
-// You'll use it to check your work throughout.
-//
-// Run this any time to see the current state of your variables:
-//   checkStatus()
-//
-// ============================================================
+// ========================================
+// INST630 Tutorial 5 - Array Methods
+// ========================================
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    // ========================================
+    // RESTAURANT DATA
+    // ========================================
+
+    const restaurants = [
+        {
+            name: "Milano's Italian Restaurant",
+            cuisine: "Italian",
+            rating: 4.5,
+            priceRange: "$$",
+            neighborhood: "College Park"
+        },
+        {
+            name: "Sakura Sushi",
+            cuisine: "Japanese",
+            rating: 4.2,
+            priceRange: "$$$",
+            neighborhood: "Downtown"
+        },
+        {
+            name: "Border Café",
+            cuisine: "Mexican",
+            rating: 4.0,
+            priceRange: "$",
+            neighborhood: "University District"
+        },
+        {
+            name: "The Brass Elephant",
+            cuisine: "American",
+            rating: 4.8,
+            priceRange: "$$$$",
+            neighborhood: "Historic District"
+        },
+        {
+            name: "Pho Corner",
+            cuisine: "Vietnamese",
+            rating: 4.3,
+            priceRange: "$",
+            neighborhood: "College Park"
+        },
+        {
+            name: "Tandoor Palace",
+            cuisine: "Indian",
+            rating: 4.1,
+            priceRange: "$$",
+            neighborhood: "Downtown"
+        },
+        {
+            name: "Le Petit Bistro",
+            cuisine: "French",
+            rating: 4.6,
+            priceRange: "$$$",
+            neighborhood: "Historic District"
+        },
+        {
+            name: "Seoul Kitchen",
+            cuisine: "Korean",
+            rating: 4.4,
+            priceRange: "$$",
+            neighborhood: "University District"
+        }
+    ];
 
 
-// ── 1. DATA: what are we tracking? ──────────────────────────
-//
-// These two variables represent the user's choice.
-// Only one can be true at a time.
-// (Later, think about whether you need both.)
+    // ========================================
+    // TASK 1: forEach()
+    // Display all restaurant names and cuisines
+    // ========================================
 
-let isGoing    = false;
-let isNotGoing = false;
+    const displayButton = document.querySelector('#display-button');
+    const restaurantList = document.querySelector('#restaurant-list');
 
+    displayButton.addEventListener('click', () => {
 
-// ── 2. ELEMENTS: find everything we'll need ─────────────────
-//
-// We grab all the elements once, at the top.
-// Then we use the variables below instead of querySelector every time.
+        restaurantList.innerHTML = '';
 
-const nameInput    = document.querySelector('#name-input');
-const guestInput   = document.querySelector('#guest-input');
-const guestField   = document.querySelector('#guest-field');
+        restaurants.forEach((restaurant) => {
 
-// Try getting the yes, no, confirmation and regret elements from the html.
-const btnYes       = document.querySelector('#btn-yes');
-const btnNo        = document.querySelector('#btn-no');
-const confirmation = document.querySelector('#confirmation');
-const regret       = document.querySelector('#regret');
+            restaurantList.innerHTML += `
+                <div class="restaurant-item">
+                    <div class="restaurant-name">${restaurant.name}</div>
+                    <div class="restaurant-cuisine">${restaurant.cuisine}</div>
+                </div>
+            `;
 
+        });
 
-// ── 3. HELPERS: small functions that do one thing ───────────
-//
-// getName() returns the name from the input, or 'Someone' if it's empty.
-// .trim() removes whitespace from both ends of a string.
+        console.log('Displayed all restaurants using forEach');
 
-const getName = () => {
-  const raw = nameInput.value.trim();
-  return raw || 'Someone';
-  // What does || do here? If raw is an empty string (falsy), return 'Someone'.
-};
-
-// getGuests() returns the guest count as a NUMBER.
-// Try: console.log(typeof guestInput.value) — what do you see?
-// Number() converts the string "3" to the number 3.
-
-const getGuests = () => Number(guestInput.value);
+    });
 
 
-// ── 4. TASK 1 & 2: wire up the YES button ───────────────────
-//
-// When the user clicks Going:
-//   - set isGoing = true, isNotGoing = false
-//   - add 'active' class to btnYes, remove it from btnNo
-//   - remove 'hidden' from guestField (show it)
-//   - remove 'hidden' from confirmation, add 'hidden' to regret
-//   - call updateConfirmation() (written below in Task 3)
+    // ========================================
+    // TASK 2: filter()
+    // Show only restaurants with $ or $$
+    // ========================================
 
-btnYes.addEventListener('click', () => {
+    const filterButton = document.querySelector('#filter-button');
+    const filteredList = document.querySelector('#filtered-list');
 
-  isGoing = true;
-  isNotGoing = false;
+    filterButton.addEventListener('click', () => {
 
-  btnYes.classList.add('active');
-  btnNo.classList.remove('active');
+        const affordableRestaurants = restaurants.filter((restaurant) => {
+            return restaurant.priceRange === '$' ||
+                   restaurant.priceRange === '$$';
+        });
 
-  guestField.classList.remove('hidden');
+        filteredList.innerHTML = '';
 
-  confirmation.classList.remove('hidden');
-  regret.classList.add('hidden');
+        affordableRestaurants.forEach((restaurant) => {
 
-  updateConfirmation();
+            filteredList.innerHTML += `
+                <div class="restaurant-item">
+                    <div class="restaurant-name">${restaurant.name}</div>
+                    <span class="restaurant-price">${restaurant.priceRange}</span>
+                </div>
+            `;
+
+        });
+
+        console.log('Showed affordable restaurants using filter');
+
+    });
+
+
+    // ========================================
+    // TASK 3: map()
+    // Create a simple list of restaurant names
+    // ========================================
+
+    const mapButton = document.querySelector('#map-button');
+    const mappedList = document.querySelector('#mapped-list');
+
+    mapButton.addEventListener('click', () => {
+
+        const restaurantNames = restaurants.map((restaurant) => {
+            return restaurant.name;
+        });
+
+        mappedList.innerHTML = '<ul class="name-list">';
+
+        restaurantNames.forEach((name) => {
+            mappedList.innerHTML += `<li>${name}</li>`;
+        });
+
+        mappedList.innerHTML += '</ul>';
+
+        console.log('Showed restaurant names using map');
+
+    });
+
+
+    // ========================================
+    // TASK 4: find()
+    // Find restaurant with rating 4.8
+    // ========================================
+
+    const findButton = document.querySelector('#find-button');
+    const foundItem = document.querySelector('#found-item');
+
+    findButton.addEventListener('click', () => {
+
+        const highestRatedRestaurant = restaurants.find((restaurant) => {
+            return restaurant.rating === 4.8;
+        });
+
+        if (highestRatedRestaurant) {
+
+            foundItem.innerHTML = `
+                <div class="found-restaurant">
+                    <div class="restaurant-name">
+                        ${highestRatedRestaurant.name}
+                    </div>
+                    <div>
+                        ${highestRatedRestaurant.cuisine}
+                    </div>
+                    <div class="restaurant-rating">
+                        Rating: ${highestRatedRestaurant.rating}
+                    </div>
+                </div>
+            `;
+
+        }
+
+        console.log('Found restaurant with rating 4.8 using find');
+
+    });
+
+
+    // ========================================
+    // HELPER FUNCTIONS
+    // ========================================
+
+    function demonstrateMethods() {
+
+        console.log('=== Method Demonstrations ===');
+
+        // forEach example
+        console.log('forEach example:');
+
+        restaurants.forEach((restaurant) => {
+            console.log(
+                `- ${restaurant.name} (${restaurant.cuisine})`
+            );
+        });
+
+
+        // filter example
+        const cheap = restaurants.filter((restaurant) => {
+            return restaurant.priceRange === '$' ||
+                   restaurant.priceRange === '$$';
+        });
+
+        console.log(
+            'filter example (affordable restaurants):',
+            cheap.length,
+            'found'
+        );
+
+
+        // map example
+        const names = restaurants.map((restaurant) => {
+            return restaurant.name;
+        });
+
+        console.log('map example (names):', names);
+
+
+        // find example
+        const best = restaurants.find((restaurant) => {
+            return restaurant.rating === 4.8;
+        });
+
+        console.log(
+            'find example (highest rated):',
+            best ? best.name : 'not found'
+        );
+
+    }
+
+
+    function clearAllDisplays() {
+
+        document.querySelector('#restaurant-list').innerHTML =
+            '<p class="placeholder">Click button to display all restaurants</p>';
+
+        document.querySelector('#filtered-list').innerHTML =
+            '<p class="placeholder">Click button to show only affordable restaurants</p>';
+
+        document.querySelector('#mapped-list').innerHTML =
+            '<p class="placeholder">Click button to show just the restaurant names</p>';
+
+        document.querySelector('#found-item').innerHTML =
+            '<p class="placeholder">Click button to find the highest rated restaurant</p>';
+
+        console.log('All displays cleared');
+
+    }
 
 });
-
-
-// When the user clicks Can't make it:
-//   - set isGoing = false, isNotGoing = true
-//   - add 'active' class to btnNo, remove it from btnYes
-//   - add 'hidden' to guestField (hide it)
-//   - add 'hidden' to confirmation, remove 'hidden' from regret
-//   - set regret.textContent using a template literal with getName()
-
-btnNo.addEventListener('click', () => {
-
-  isGoing = false;
-  isNotGoing = true;
-
-  btnNo.classList.add('active');
-  btnYes.classList.remove('active');
-
-  guestField.classList.add('hidden');
-
-  confirmation.classList.add('hidden');
-  regret.classList.remove('hidden');
-
-  regret.textContent = `${getName()} can't make it.`;
-
-});
-
-
-// ── 5. TASK 3 & 4: build the confirmation message ───────────
-// 
-// updateConfirmation() assembles the message from name + guest count.
-//
-// Template literal syntax:  `${expression} rest of string`
-//
-// The guest count needs a conditional:
-//   0 guests → "flying solo."
-//   1 guest  → "bringing 1 guest."
-//   2+ guests → "bringing 3 guests."
-//
-// Hint: write the conditional first, store the result in a variable,
-// then use that variable in the template literal.
-
-const updateConfirmation = () => {
-  const guests = getGuests();
-
-  // Build guestLine based on guests value
-  let guestLine;
-
-  if (guests === 0) {
-    guestLine = 'flying solo.';
-  } else if (guests === 1) {
-    guestLine = 'bringing 1 guest.';
-  } else {
-    guestLine = `bringing ${guests} guests.`;
-  }
-
-  // Set confirmation.textContent using a template literal
-  confirmation.textContent = `${getName()} is coming — ${guestLine}`;
-
-};
-
-
-// ── 6. TASK 5: live updates ──────────────────────────────────
-//
-// Add 'input' event listeners to nameInput and guestInput.
-// Each one should check whether the user has made a choice yet,
-// and if so, call the right update function.
-//
-// Hint: use the isGoing and isNotGoing variables to check.
-
-nameInput.addEventListener('input', () => {
-
-  if (isGoing) {
-    updateConfirmation();
-  } else if (isNotGoing) {
-    regret.textContent = `${getName()} can't make it.`;
-  }
-
-});
-
-guestInput.addEventListener('input', () => {
-
-  if (isGoing) {
-    updateConfirmation();
-  }
-
-});
-
-
-// ── DEBUGGING ────────────────────────────────────────────────
-//
-// Type checkStatus() in the browser console to see current variable values.
-
-const checkStatus = () => {
-  console.log('=== current state ===');
-  console.log('isGoing:    ', isGoing);
-  console.log('isNotGoing: ', isNotGoing);
-  console.log('name:       ', nameInput.value);
-  console.log('guests:     ', getGuests(), '(type:', typeof getGuests(), ')');
-  console.log('raw value:  ', guestInput.value, '(type:', typeof guestInput.value, ')');
-  console.log('====================');
-};
-
-
-// Type resetCard() in the browser console to clear everything and start over.
-
-const resetCard = () => {
-  isGoing    = false;
-  isNotGoing = false;
-
-  nameInput.value  = '';
-  guestInput.value = '0';
-
-  btnYes.classList.remove('active');
-  btnNo.classList.remove('active');
-
-  guestField.classList.add('hidden');
-  confirmation.classList.add('hidden');
-  regret.classList.add('hidden');
-
-  confirmation.textContent = '';
-  regret.textContent       = '';
-
-  console.log('Card reset.');
-};
