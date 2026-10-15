@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial 6: Load Real Data</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <main class="container">
+        <header>
+            <p class="eyebrow">INST630 · HOMEWORK 6</p>
+            <h1>Tutorial 6: Load Real Data</h1>
+            <p>From static data to dynamic data loading with JavaScript.</p>
+        </header>
+
+        <section class="status-section" aria-labelledby="status-heading">
+            <h2 id="status-heading">Data Loading Status</h2>
+            <div id="loading-status" class="status-display" role="status" aria-live="polite">
+                <p class="status-message">Ready to load data</p>
+            </div>
+            <button id="load-data-button" class="load-button" type="button">Load Restaurant Data</button>
+        </section>
+
+        <section class="method-section" aria-labelledby="display-heading">
+            <h2 id="display-heading">Method 1: Display All Restaurants</h2>
+            <p>Use <code>forEach()</code> to display each restaurant from the loaded JSON data.</p>
+            <div class="demo-area">
+                <button id="display-button" class="method-button" type="button" disabled>Display All Restaurants</button>
+                <div id="restaurant-list" class="result-area" aria-live="polite">
+                    <p class="placeholder">Load data first, then click to display all restaurants.</p>
+                </div>
+            </div>
+            <div class="explanation"><p><strong>What's happening:</strong> Each restaurant object is visited and displayed after the asynchronous request succeeds.</p></div>
+        </section>
+
+        <section class="method-section" aria-labelledby="filter-heading">
+            <h2 id="filter-heading">Method 2: Filter Cheap Restaurants</h2>
+            <p>Use <code>filter()</code> to find restaurants in the lowest listed price range (<code>$</code>).</p>
+            <div class="demo-area">
+                <button id="filter-button" class="method-button" type="button" disabled>Show Cheap Restaurants</button>
+                <div id="filtered-list" class="result-area" aria-live="polite">
+                    <p class="placeholder">Load data first, then click to show affordable restaurants.</p>
+                </div>
+            </div>
+            <div class="explanation"><p><strong>Key insight:</strong> Array methods work the same way on asynchronously loaded data as they do on a hardcoded array.</p></div>
+        </section>
+
+        <section class="method-section" aria-labelledby="map-heading">
+            <h2 id="map-heading">Method 3: Extract Restaurant Names</h2>
+            <p>Use <code>map()</code> to transform the restaurant objects into an array of names.</p>
+            <div class="demo-area">
+                <button id="map-button" class="method-button" type="button" disabled>Show Restaurant Names</button>
+                <div id="mapped-list" class="result-area" aria-live="polite">
+                    <p class="placeholder">Load data first, then click to show restaurant names.</p>
+                </div>
+            </div>
+            <div class="explanation"><p><strong>Real-world pattern:</strong> Load data → transform data → display data.</p></div>
+        </section>
+
+        <section class="method-section error-demo" aria-labelledby="error-heading">
+            <h2 id="error-heading">Error Handling Demo</h2>
+            <p>This test intentionally requests a file that does not exist so you can see how a failed request is handled.</p>
+            <div class="demo-area">
+                <button id="error-button" class="error-button" type="button">Try Loading Bad Data</button>
+                <div id="error-display" class="result-area" aria-live="polite">
+                    <p class="placeholder">Click to see error handling in action.</p>
+                </div>
+            </div>
+            <div class="explanation"><p><strong>Important:</strong> A helpful message and retry option keep a failed request from breaking the interface.</p></div>
+        </section>
+
+        <section class="tutorial-instructions">
+            <h2>What This Demonstrates</h2>
+            <ol>
+                <li><strong>Async data loading:</strong> Fetch restaurant data from <code>restaurants.json</code>.</li>
+                <li><strong>Loading states:</strong> Show status feedback while the request is in progress.</li>
+                <li><strong>Error handling:</strong> Use <code>try/catch/finally</code> and provide a retry option.</li>
+                <li><strong>Array methods:</strong> Apply <code>forEach()</code>, <code>filter()</code>, and <code>map()</code> to the loaded data.</li>
+            </ol>
+            <h3>Async workflow</h3>
+            <p class="workflow">Show loading → Fetch JSON → Check response → Parse data → Enable controls</p>
+            <p class="workflow">If something fails: Catch the error → Explain the problem → Let the user retry</p>
+        </section>
+        <footer><p>INST630 · Homework 6 · Async/Await and APIs</p></footer>
+    </main>
+</body>
+</html>
